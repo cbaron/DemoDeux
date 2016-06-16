@@ -1,0 +1,40 @@
+{
+  "description": "Demo Deux",
+  "engines": {
+    "node": "6.2.0"
+  },
+  "dependencies": {
+    "backbone": "^1.3.1",
+    "jquery": "^2.2.4",
+    "jws": "^3.1.3",
+    "moment": "^2.12.0",
+    "pg": "4.5.5",
+    "pg-native": "^1.10.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babelify": "7.3.0",
+    "bootstrap": "3.3.6",
+    "browserify": "13.0.1",
+    "font-awesome": "^4.6.3",
+    "less": "^2.7.1",
+    "parallelshell": "2.0.0",
+    "watch": "0.18.0"
+  },
+  "license": "MIT",
+  "name": "DemoDeux",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cbaron/demodeux.git"
+  },
+  "scripts": {
+    "build:css": "paste -s -d '\\n' client/less/*.less client/vendor/*.css | lessc -x - > static/css/bundle.css",
+    "build:js": "browserify client/js/main.js -o static/js/debug.js -d -t [ babelify --presets [ es2015 ] ]",
+    "build:watch": "parallelshell 'npm run watch:css' 'npm run watch:js'",
+    "watch:css": "watch 'npm run build:css' client/less --ignoreDotFiles",
+    "watch:js": "watch 'npm run build:js' client/js --ignoreDotFiles"
+  },
+  "version": "0.0.1"
+}
