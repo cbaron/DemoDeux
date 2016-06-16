@@ -32,10 +32,11 @@
   },
   "scripts": {
     "build:css": "paste -s -d '\\n' client/less/*.less client/vendor/*.css | lessc -x - > static/css/bundle.css",
-    "build:js": "browserify client/js/main.js -o static/js/debug.js -d -t [ babelify --presets [ es2015 ] ]",
+    "build:js": "browserify client/js/main.js -o static/js/bundle.js -t [ babelify --presets [ es2015 ] ]",
+    "build:js-debug": "browserify client/js/main.js -o static/js/debug.js -d -t [ babelify --presets [ es2015 ] ]",
     "build:watch": "parallelshell 'npm run watch:css' 'npm run watch:js'",
     "watch:css": "watch 'npm run build:css' client/less --ignoreDotFiles",
-    "watch:js": "watch 'npm run build:js' client/js --ignoreDotFiles"
+    "watch:js": "watch 'npm run build:js-debug' client/js --ignoreDotFiles"
   },
   "version": "0.0.1"
 }
