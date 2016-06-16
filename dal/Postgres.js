@@ -1,6 +1,9 @@
 module.exports = Object.create( Object.assign( {}, require('../lib/MyObject'), {
 
-    query( query, args, opts = { } ) { return this._factory( opts ).query( query, args ).fail( e => this.Error(e) ) },
+    query( query, args, opts = { } ) {
+        return this._factory( opts ).query( query, args )
+            .catch( e => { this.Error( `query: ${query}\nargs: ${args}` ); throw new Error(e) } )
+    },
 
     querySync( query, args, opts = { } ) {
         var client = new ( require('pg-native') )(), rows
@@ -28,7 +31,6 @@ module.exports = Object.create( Object.assign( {}, require('../lib/MyObject'), {
                 recorddescriptor: ( this.tables[ match[2] ].meta ) ? this.tables[ match[2] ].meta.recorddescriptor : null
             }
         } )
-
     },
 
     _factory( data ) {

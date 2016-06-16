@@ -9,8 +9,8 @@ module.exports = Object.create(
 
         Postgres: require('./dal/Postgres'),
 
-        applyResource( request, response, path, parsedUrl, dir, file ) {
-        
+        obligeResource( request, response, path, parsedUrl, dir, file ) {
+
             return new Promise( ( resolve, reject ) => {
 
                 require('fs').stat( `${__dirname}/${dir}/${file}.js`, err => {
@@ -20,13 +20,12 @@ module.exports = Object.create(
                     }
 
                     Object.create( require(`${dir}/${file}`), {
-                        callChain: { value: new Promise( resolve => resolve() ) },
                         request: { value: request },
                         response: { value: response },
                         path: { value: path },
                         parsedUrl: { value: parsedUrl },
                         tables: { value: this.Postgres.tables }
-                    } ).apply( request.method ).then( resolve ).catch( reject )
+                    } ).oblige( request.method ).then( resolve ).catch( reject )
                 } )
             } )
         },
@@ -109,7 +108,7 @@ module.exports = Object.create(
             "PUT": [ RESTHandler ],
         },
 
-        rest( request, response, path, parsedUrl ) { return this.applyResource( request, response, path, parsedUrl, './resources', path[1] ) },
+        rest( request, response, path, parsedUrl ) { return this.obligeResource( request, response, path, parsedUrl, './resources', path[1] ) },
 
         static( request, response, path ) {
             var file = this.format( '%s%s', __dirname, path.join('/') )

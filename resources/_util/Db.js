@@ -2,7 +2,7 @@ module.exports = {
 
     Postgres: require('../../dal/Postgres'),
 
-    apply( resource ) { return this[ resource.request.method ]( resource ) },
+    init( resource ) { return this[ resource.request.method ]( resource ) },
 
     DELETE() { return this.Postgres.query( `DELETE FROM ${resource.path[1]} WHERE id = ${resource.path[2]} RETURNING id` ) },
 
@@ -37,5 +37,5 @@ module.exports = {
             bodyKeys.map( key => resource.body[key] ) )
     },
 
-    _getColumns( name ) { this.Postgres.tables[ name ].columns.map( column => `${name}.${column.name}` ).join(', ') },
+    _getColumns( name ) { return this.Postgres.tables[ name ].columns.map( column => `${name}.${column.name}` ).join(', ') },
 }

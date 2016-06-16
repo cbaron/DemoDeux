@@ -20,14 +20,19 @@ module.exports = {
     },
 
     POST( resource ) {
-        if( /(auth)/.test(resource.path[1]) ) return
-        
-        if( this.path.length !== 2 ) this.throwInvalid()
-        
-        return this.slurpBody( resource ).then( () => this.parseSignature( resource, this.parseCookies( resource.request.headers.cookie ) ) )
+        return new Promise( ( resolve, reject ) => {
+            if( /(auth)/.test(resource.path[1]) ) return resolve()
+            
+            if( resource.path.length !== 2 ) reject( "Invalid request" )
+           
+            return this.slurpBody( resource )
+            .then( () => this.parseSignature( resource, this.parseCookies( resource.request.headers.cookie ) ) )
+            .then( resolve )
+            .catch( reject )
+        } )
     },
     
-    apply( resource ) { return this[ resource.request.method ]( resource ) },
+    init( resource ) { return this[ resource.request.method ]( resource ) },
 
     parseCookies( cookies ) {
         var rv
@@ -46,7 +51,7 @@ module.exports = {
 
     parseSignature( resource, signature ) {
         return new Promise( ( resolve, reject ) => {
-            if( ! signature ) { resource.user = { }; return resolve() }
+            if( ! signature ) { resource.user = { token: this.uuid.v4() }; resource.setCookie = true; return resolve() }
             require('jws').createVerify( {
                 algorithm: "HS256",
                 key: process.env.JWS_SECRET,
@@ -55,7 +60,7 @@ module.exports = {
                 if( ! verified ) reject( 'Invalid Signature' )
                 resource.user = obj.payload
                 resolve()
-            } ).on( 'error', e => { resource.user = { }; return resolve() } )
+            } ).on( 'error', e => { resource.user = { token: this.uuid.v4() }; resource.setCookie = true; resolve() } )
         } )
     },
 
@@ -64,7 +69,7 @@ module.exports = {
             var body = ''
             
             resource.request.on( "data", data => {
-                body += someData
+                body += data
 
                 if( body.length > 1e10 ) {
                     response.request.connection.destroy()
@@ -73,12 +78,14 @@ module.exports = {
             } )
 
             resource.request.on( "end", () => {
-                try { body = JSON.parse( body ) }
+                try { resource.body = JSON.parse( body ) }
                 catch( e ) { reject( 'Unable to parse request : ' + e ) }
                 resolve()
             } )
         } )
     },
 
-    throwInvalid() { throw new Error("Invalid request") }
+    throwInvalid() { throw new Error("Invalid request") },
+    
+    uuid: require('uuid')
 }

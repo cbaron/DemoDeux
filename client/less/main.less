@@ -10,9 +10,18 @@ body {
     font-size: 1rem;
 }
 
+hr {
+    margin: 12px 0px;
+    border-top: 1px solid #d9d9d9;
+}
+
 textarea {
     border-color: #cacaca;
     border-radius: 0px;
+}
+
+input.with-fa {
+    padding-left: 30px;
 }
 
 #content {
@@ -59,6 +68,7 @@ textarea {
     >div:first-child {
         color: #1f1f1f;
         font-size: 1.5rem;
+        font-weight: bold;
         margin: 20px 0px;
         text-align: center;
     }
@@ -68,9 +78,7 @@ textarea {
         text-align: center;
     }
 
-    hr {
-        margin: 12px 0px;
-    }
+    
 
     .fa-mobile {
         font-size: 25px;
@@ -99,17 +107,22 @@ textarea {
 
     .step {
         color: #5a5a5a;
+        font-weight: bold;
+        font-size: 1.25rem;
         text-align: center;
         margin-bottom: 25px;
     }
     
     .prompt {
         color: #5a5a5a;
+        font-size: 1.1rem;
+        font-weight: bold;
         margin-bottom: 15px;
     }
     
     .help {
         color: #b4b4b4;
+        font-weight: normal;
     }
 
     .radio {
@@ -119,5 +132,44 @@ textarea {
         &:last-child {
             margin-bottom: 35px;
         }
+    }
+
+    .with-input {
+        position: absolute;
+        font-size: 14px;
+        margin: 10px;
+    }
+}
+
+.when {
+    .start {
+        margin-bottom: 25px;
+    }
+}
+
+.confirm {
+
+    .item {
+        color: #696969;
+        font-size: 1.5rem;
+        margin-bottom: 25px;
+
+        &.ad-text {
+            font-size: 1.75rem;
+        }
+    }
+
+    i {
+        font-size: 13px;
+        margin-right: 15px;
+    }
+
+    .fa-calendar {
+        position: absolute;
+        line-height: 21px;
+    }
+
+    .start, .to {
+        margin-bottom: 15px;
     }
 }

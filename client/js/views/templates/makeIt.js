@@ -22,4 +22,6 @@ module.exports = p => `
                     <input class="form-control"data-js="input" type="text" placeholder="http://www.tellient.com/changsbuns" />
                 </form> 
             </div>
+        </div>
+    </div>
 `

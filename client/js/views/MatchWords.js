@@ -53,7 +53,11 @@ module.exports = Object.assign( {}, require('./__proto__'), {
     },
 
     showProperNav() {
-        this.templateData.btn.text( ( this.currentIndex !== 6 ) ? 'Next' : 'Confirm' )
+        var index = this.getIndex()
+
+        if( index === 6 ) return this.templateData.btn.hide()
+
+        this.templateData.btn.text( ( index !== 5 ) ? 'Next' : 'Confirm' )
     },
 
     showProperView( back ) {
@@ -69,13 +73,13 @@ module.exports = Object.assign( {}, require('./__proto__'), {
             if( this.instances[ currentViewName ].goBack ) this.goBack()
             return
         }
-        
+
         this.instances[ currentViewName ] = Object.create( this.views[ index ].view, {
             container: { value: this.templateData.subview },
             containerClass: { value: klass },
-            ad: { value: this.user.get('ad') }
+            ad: { value: this.user.get('state').ad }
         } ).constructor()
-        
+ 
         if( this.instances[ currentViewName ].templateData ) this.instances[ currentViewName ].templateData.container.addClass(klass)
 
         if( this.views[ index ].on ) {
@@ -89,7 +93,7 @@ module.exports = Object.assign( {}, require('./__proto__'), {
 	template: require('./templates/matchwords'),
 
     updateState( data ) {
-        if( ! this.user.get('state').index ) this.user.set( { state: { index: 0, ad: new this.Model() } } )
+        if( ! this.user.get('state').index ) this.user.set( { state: { index: 0, ad: new ( this.Model.extend( { urlRoot: '/ad' } ) )() } } )
         
         this.showProperView()
     },
@@ -97,12 +101,12 @@ module.exports = Object.assign( {}, require('./__proto__'), {
     validateView() {
         var view = this.instances[ this.views[ this.getIndex() ].name ]
         
-        this.templateData.btn.off()
+        this.templateData.btn.off().blur()
 
         view.validate()
         .then( result => { if( result ) this.showNext() } )
         .catch( e => new this.Error(e) )
-        .then( () => window.setTimeout( () => this.delegateEvents( 'btn', this.templateData.btn ), 1000 ) )
+        .then( () => window.setTimeout( () => this.delegateEvents( 'btn', this.templateData.btn ), 250 ) )
     },
 
     views: [

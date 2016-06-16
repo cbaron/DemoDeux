@@ -17,6 +17,7 @@ module.exports = Object.assign( {}, require('./__proto__'), {
     template: require('./templates/makeIt'),
 
     validate() {
+        this.ad.set( { link: "http://www.tellient.com/changsbuns" } )
         return new Promise( ( resolve, reject ) => resolve(true) )
     }
 } )

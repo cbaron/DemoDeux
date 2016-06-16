@@ -1,6 +1,6 @@
 module.exports = {
 
-    apply( resource ) { return this[ resource.request.method ]( resource ) },
+    init( resource ) { return this[ resource.request.method ]( resource ) },
 
     DELETE(){},
 
