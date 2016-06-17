@@ -4,13 +4,16 @@ module.exports = Object.assign( {}, require('./__proto__'), {
         return this.update()
     },
 
+    io: require('socket-io'),
+
     template: require('./templates/confirm'),
 
     validate() {
         return new Promise( ( resolve, reject ) => {
             this.ad.save()
-            .done( () => resolve(true) )
             .fail( () => resolve(false) )
+            .done( () => new Promise( resolve => this.io().emit( 'adCreated', this.ad.attributes, () => resolve() ) ) )
+            .then( () => resolve(true) )
         } )
     },
 

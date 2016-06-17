@@ -1,3 +1,1 @@
-require('http').createServer( require('./router') ).listen( process.env.PORT )
-
-//heroku addons:create heroku-postgresql:hobby-dev
+require('./socketServer').constructor( require('http').createServer( require('./router') ).listen( process.env.PORT ) )
