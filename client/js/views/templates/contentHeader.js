@@ -1,6 +1,6 @@
 module.exports = p => `
     <div class="content-header">
-        <div class="row">Advertise on ChinaTel</div>
+        <div class="row">Advertise on ChinaWireless</div>
         <div class="row">
             <div class="col-xs-4 col-xs-offset-1">
                 <hr></hr>

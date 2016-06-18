@@ -3,8 +3,11 @@ module.exports = Object.create( Object.assign( { }, require('./lib/MyObject'), {
         this.io = require('socket.io')(app)
         this.io.on( 'connection', socket => {
           socket.on( 'adCreated', ( data, callback ) => {
-              console.log("ad created!")
               this.io.emit( 'adCreated', data )
+              callback()
+          } )
+          socket.on( 'adMatched', ( data, callback ) => {
+              this.io.emit( 'adMatched', data )
               callback()
           } )
         } )

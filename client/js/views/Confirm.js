@@ -4,7 +4,7 @@ module.exports = Object.assign( {}, require('./__proto__'), {
         return this.update()
     },
 
-    io: require('socket-io'),
+    io: require('socket.io-client'),
 
     template: require('./templates/confirm'),
 

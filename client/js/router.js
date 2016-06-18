@@ -4,6 +4,7 @@ module.exports = new (
         Error: require('../../lib/MyError'),
 
         Views: {
+            Lovely: require('./views/Lovely'),
             MatchWords: require('./views/MatchWords')
         },
         
