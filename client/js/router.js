@@ -15,7 +15,11 @@ module.exports = new (
 
         handler( request ) {
 
-            Object.create( this.Views.MatchWords, { user: { value: this.user }, router: { value: this } } ).constructor()
+            Object.create( this.Views[ ( /lovely/.test(document.location.hostname) ) ? 'Lovely' : 'MatchWords' ], {
+                request: { value: request },
+                router: { value: this },
+                user: { value: this.user }
+            } ).constructor()
         },
 
         routes: {

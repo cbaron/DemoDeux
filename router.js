@@ -81,6 +81,7 @@ module.exports = Object.create(
                 response.writeHead( 200 )
                 response.end( require('./templates/page')( {
                     isDev: ( process.env.ENV === 'development' ) ? true : false,
+                    style: ( request.headers.host.split('.')[0] === 'lovely' ) ? 'lovely' : 'match',
                     title: 'Match Words'
                 } ) )
                 resolve()
